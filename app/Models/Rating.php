@@ -41,8 +41,22 @@ class Rating extends Model
         return $query->where('question_id',$id)
                      ->where('rating',$rating)->count();
     }
-    private function scopeSearchUser()
+    // private function scopeSearchUser()
+    // {
+    //     return $this->where();
+    // }
+    // public function scopeQuestionRatingCountBySubject(Builder $query)
+    // {
+
+    // }
+    public function scopeCountRatingsBySubject(Builder $query,$instructor_id,$rating)
     {
-        return $this->where();
+        $query->whereHasMorph(
+            'ratingable',
+            Instructor::class,
+            function(Builder $q)use($instructor_id,$rating){
+                $q->where('ratingable_id',$instructor_id)
+                    ->where('rating',$rating);
+            });
     }
 }

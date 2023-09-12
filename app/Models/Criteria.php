@@ -29,4 +29,6 @@ class Criteria extends Model
     {
         return $this->hasManyThrough(Rating::class,Question::class);
     }
+
+    // public function scope
 }

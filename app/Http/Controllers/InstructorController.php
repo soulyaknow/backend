@@ -27,19 +27,98 @@ class InstructorController extends Controller
      */
     public function show(int $id)
     {
-        $questionaire = Questionaire::find(1);
-        $questions =  $questionaire->criterias()
-                                   ->with('questions.ratings')
-                                   
-                                   ->get();
-        // $questions = Criteria::with([
-        //                             'questions.ratings' =>function($query){
-        //                                $query->where('questions_id',1)->count(); 
-                                       
-        //                             }
-        //                             ])->get();
-        dd($questions);
-        return view('instructors.show');
+
+        $instructor = Instructor::findorFail($id);
+        $questionaire = Questionaire::with([
+                                        'criterias' => function($query)use($id){
+                                            $query->with([
+                                                'questions'=> function($q)use($id){
+                                                    $q->withCount([
+                                                        'ratings as NI'=> function($q)use($id){
+                                                            $q->CountRatingsBySubject($id,1);
+                                                        },
+                                                        'ratings as F'=> function($q)use($id){
+                                                            $q->CountRatingsBySubject($id,2);
+                                                        },
+                                                        'ratings as S'=> function($q)use($id){
+                                                            $q->CountRatingsBySubject($id,3);
+                                                        },
+                                                        'ratings as VS'=> function($q)use($id){
+                                                            $q->CountRatingsBySubject($id,4);
+                                                        },
+                                                        'ratings as O'=> function($q)use($id){
+                                                            $q->CountRatingsBySubject($id,5);
+                                                        },
+                                                    ]);
+                                                }
+                                            ]);
+                                        }
+                                        ])
+                                        ->first();
+                                        
+        //  $questionaire[0]->criterias[0]->questions->with('ratings');    
+        // dd($questionaire[0]->criterias[0]->questions[0]);
+        // // dd( $questionaire[0]->criterias[0]->questions[0]->ratings->count());
+        // $questionaire = Questionaire::with([
+        //                                 'criterias' => function($query)use($id){
+        //                                     $query->with(['questions']);
+        //                                     }
+        //                                 ])
+        //                                 ->get();
+        // $questionaire = Questionaire::questionaireWithCriteria(1)->first();
+        // $questions = $questionaire
+        // $ratings = $questionaire[0]->criterias[0]->questions[0]
+                                    // ->withCount([
+                                    //     'ratings' => function($query)use($id){
+                                    //         $query->whereHasMorph(
+                                    //             'ratingable',
+                                    //             Instructor::class,
+                                    //             function(Builder $q)use($id){
+                                    //                 $q->where('ratingable_id',$id)
+                                    //                     ->where('rating',1);
+                                    //             });
+                                    //     }
+                                    // ])->get()
+                                    ;
+        // dd($ratings);
+        // $criterias =  $questionaire->criterias()
+        //                             ->with([
+        //                                 'questions'
+        //                                 =>function($q){
+        //                                     $q->where('id',1)->first();
+        //                                 }
+        //                                 ,
+        //                                 'questions.ratings' =>function($query)use($id){
+        //                                     $query->whereHasMorph(
+        //                                         'ratingable',
+        //                                         Instructor::class,
+        //                                         function(Builder $q)use($id){
+        //                                             $q->where('ratingable_id',$id)
+        //                                                 ->where('rating',1);
+        //                                         });
+        //                                 }
+        //                             ])
+        //                             ->where('id',1)
+        //                            ->get()
+        //                         ;
+            // $questions = array(
+            //     'test1'=>'test1',
+            //     'test2'=>'test2',
+            // );
+            // $questions = Question::with([
+            //                             'ratings'=>function($query)use($id){
+            //                                 $query->whereHasMorph(
+            //                                     'ratingable',
+            //                                     Instructor::class,
+            //                                     function(Builder $q)use($id){
+            //                                         $q->where('ratingable_id',$id)
+            //                                             ->where('rating',5);
+            //                                     })->count();
+            //                             }
+            //                             ])->where('id',1)->first();
+            // dd($questions->ratings->count());
+        return view('instructors.show',compact(['questionaire','instructor']));
+      
     }
 
 }

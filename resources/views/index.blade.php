@@ -8,70 +8,37 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="container mx-auto mt-10 mb-10 max-w-3xl">
-<div class="relative overflow-x-auto">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" class="px-6 py-3">
-                    Product name
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Color
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Category
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Price
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
-                </th>
-                <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4">
-                    Laptop
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td class="px-6 py-4">
-                    $1999
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Magic Mouse 2
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    $99
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="overflow-auto rounded-lg shadow hidden md:block">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b-2 border-gray-200">
+          <tr>
+            <th class="w-20 p-3 text-sm font-semibold tracking-wide text-left">Criteria</th>
+            <th class="p-3 text-sm font-semibold tracking-wide text-left"></th>
+            <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">NI</th>
+            <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left">F</th>
+            <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">S</th>
+            <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">VS</th>
+            <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">O</th>
+          </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+          <tr class="bg-white">
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+            </td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+              question
+            </td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                22
+            </td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">23</td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">22</td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">22</td>
+            <td class="p-3 text-sm text-gray-700 whitespace-nowrap">22</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
 
 </body>
 </html>

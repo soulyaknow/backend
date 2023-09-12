@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 // use App\Models\Criteria;
 use App\Models\Instructor;
 use App\Models\Question;
+use App\Models\Questionaire;
 use App\Models\Rating;
 use Illuminate\Database\Eloquent\Builder;
 // use App\Models\Rating;
@@ -57,57 +58,79 @@ class TestController extends Controller
                                     
             //                       ->get();
             // return response()->json($rating);
-            $questions = Question::withCount(['ratings as NI_counts'=>function($query){
-                                            $query->whereHasMorph(
-                                                'ratingable',
-                                                Instructor::class,
-                                                function(Builder $q){
-                                                    $q->where('ratingable_id',1)
-                                                        ->where('rating',1);
-                                                });
-                                        },
-                                        'ratings as F_counts'=>function($query){
-                                            $query->whereHasMorph(
-                                                'ratingable',
-                                                Instructor::class,
-                                                function(Builder $q){
-                                                    $q->where('ratingable_id',1)
-                                                        ->where('rating',2);
-                                                });
-                                        },
-                                        'ratings as S_count'=>function($query){
-                                            $query->whereHasMorph(
-                                                'ratingable',
-                                                Instructor::class,
-                                                function(Builder $q){
-                                                    $q->where('ratingable_id',1)
-                                                        ->where('rating',3);
-                                                });
-                                        },
-                                        'ratings as VS_count'=>function($query){
-                                            $query->whereHasMorph(
-                                                'ratingable',
-                                                Instructor::class,
-                                                function(Builder $q){
-                                                    $q->where('ratingable_id',1)
-                                                        ->where('rating',4);
-                                                });
-                                        },
-                                        'ratings as O_count'=>function($query){
-                                            $query->whereHasMorph(
-                                                'ratingable',
-                                                Instructor::class,
-                                                function(Builder $q){
-                                                    $q->where('ratingable_id',1)
-                                                        ->where('rating',5);
-                                                });
-                                        },
-                                    ])
-                                    ->with('criteria')
-                                    // ->where('criteria_id',1)
-                                    // ->where('id',1)
-                                    ->get();
-            return response()->json($questions);
+            // $questions = Question::withCount(['ratings as NI_counts'=>function($query){
+                                            // $query->whereHasMorph(
+                                            //     'ratingable',
+                                            //     Instructor::class,
+                                            //     function(Builder $q){
+                                            //         $q->where('ratingable_id',1)
+                                            //             ->where('rating',1);
+                                            //     });
+            //                             },
+            //                             'ratings as F_counts'=>function($query){
+            //                                 $query->whereHasMorph(
+            //                                     'ratingable',
+            //                                     Instructor::class,
+            //                                     function(Builder $q){
+            //                                         $q->where('ratingable_id',1)
+            //                                             ->where('rating',2);
+            //                                     });
+            //                             },
+            //                             'ratings as S_count'=>function($query){
+            //                                 $query->whereHasMorph(
+            //                                     'ratingable',
+            //                                     Instructor::class,
+            //                                     function(Builder $q){
+            //                                         $q->where('ratingable_id',1)
+            //                                             ->where('rating',3);
+            //                                     });
+            //                             },
+            //                             'ratings as VS_count'=>function($query){
+            //                                 $query->whereHasMorph(
+            //                                     'ratingable',
+            //                                     Instructor::class,
+            //                                     function(Builder $q){
+            //                                         $q->where('ratingable_id',1)
+            //                                             ->where('rating',4);
+            //                                     });
+            //                             },
+            //                             'ratings as O_count'=>function($query){
+            //                                 $query->whereHasMorph(
+            //                                     'ratingable',
+            //                                     Instructor::class,
+            //                                     function(Builder $q){
+            //                                         $q->where('ratingable_id',1)
+            //                                             ->where('rating',5);
+            //                                     });
+            //                             },
+            //                         ])
+            //                         ->with('criteria')
+            //                         // ->where('criteria_id',1)
+            //                         // ->where('id',1)
+            //                         ->get();
+            // return response()->json($questions);
+            $id = 1;
+            $questionaire = Questionaire::find(1);
+            $questions =  $questionaire->criterias()
+                                        ->with([
+                                            'questions'
+                                             =>function($q){
+                                                $q->where('id',1);
+                                            }
+                                            ,
+                                            'questions.ratings' =>function($query)use($id){
+                                                $query->whereHasMorph(
+                                                    'ratingable',
+                                                    Instructor::class,
+                                                    function(Builder $q)use($id){
+                                                        $q->where('ratingable_id',$id)
+                                                            ->where('rating',1);
+                                                    });
+                                            }
+                                        ])
+                                     ->where('id',1)
+                                       ->get();
+                                         return response()->json($questions);
 
     }
     public function test()
