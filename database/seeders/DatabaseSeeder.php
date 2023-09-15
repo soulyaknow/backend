@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
   
         foreach($questionaires as $questionaire){
             $criterias = Criteria::factory(5)->create()->each(function($criteria)use ($questionaire){
-                $questionaire->criteria()->attach($criteria->id);
+                $questionaire->criterias()->attach($criteria->id);
             });
             foreach($criterias as $criteria){
                 Question::factory(5)->create(['criteria_id' => $criteria->id])->each(function($question)use($users,$instructors){
@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         }
 
   
-
+        $this->call([PivotSeeder::class]);
 
 
 

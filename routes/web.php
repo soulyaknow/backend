@@ -28,3 +28,4 @@ Route::resource('questionaires.questions',QuestionContoller::class)->only(['inde
 
 Route::get('/instructors',[InstructorController::class,'index']);
 Route::get('/instructors/{id}/evaluation-form',[InstructorController::class,'show'])->name('evaluation-form');
+Route::get('/instructors/{id}/question/{question}/evaluation-form',[InstructorController::class,'showForm'])->name('evaluation-form-question');;

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\UserInfo;
+use App\Models\Rating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -20,6 +21,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    // protected $primaryKey = 'id_number';
     protected $fillable = [
         'name',
         'email',
@@ -53,6 +55,6 @@ class User extends Authenticatable
 
     public function ratings():HasMany
     {
-        return $this->hasMany(Ratings::class);
+        return $this->hasMany(Rating::class,'evaluator_id','id_number');
     }
 }

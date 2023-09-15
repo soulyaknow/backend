@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('section');
             $table->unsignedBigInteger('mobile_number')->nullable();
             $table->string('course');
-            $table->string('department');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();

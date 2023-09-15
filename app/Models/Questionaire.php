@@ -37,12 +37,50 @@ class Questionaire extends Model
         return $query->with('criterias')->where('id', 1);
     }
 
-    public function getNIAttribute()
-    {
-        return $this->ratings;
-    }
     public function getAliasedRatingsAttribute()
     {
         return $this->ratings;
+    }
+
+    public function scopeEvaluationFormFor(Builder $query,$id)
+    {
+        $query->with([
+            'criterias' => function($query)use($id){
+                $query->with([
+                    'questions'=> function($q)use($id){
+                        $q->withCount([
+                            'ratings as NI'=> function($q)use($id){
+                                $q->ratingsBySubject($id,1);
+                            },
+                            'ratings as F'=> function($q)use($id){
+                                $q->ratingsBySubject($id,2);
+                            },
+                            'ratings as S'=> function($q)use($id){
+                                $q->ratingsBySubject($id,3);
+                            },
+                            'ratings as VS'=> function($q)use($id){
+                                $q->ratingsBySubject($id,4);
+                            },
+                            'ratings as O'=> function($q)use($id){
+                                $q->ratingsBySubject($id,5);
+                            },
+                        ])
+                        ->withAvg([
+                            'ratings' => function($query)use($id){
+                                $query->whereHasMorph(
+                                    'ratingable',
+                                    Instructor::class,
+                                    function(Builder $q)use($id){
+                                        $q->where('ratingable_id',$id);
+                                    });
+                                ;
+                            }
+                            ],'rating')
+                        ;
+                    }
+                ]);
+            }
+            ])
+           ;
     }
 }

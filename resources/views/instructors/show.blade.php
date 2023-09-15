@@ -1,12 +1,14 @@
 @extends('layout.app')
 
 @section('content')
-    <h1>{{ $questionaire->title }}</h1>
-    <h2>{{ $questionaire->description }}</h2>
-    <h1></h1>
-    <h1 class="font-bold mb-5">{{ $instructor->name }}</h1>
+ 
     {{-- {{ dd($criterias) }} --}}
         <table class="w-full">
+            <caption class="caption-top"></caption>
+                <h1 class="mb-3">{{ $questionaire->title }}</h1>
+                <h2 class="mb-3">{{ $questionaire->description }}</h2>
+                <h1 class="font-bold mb-5">{{ $instructor->name }}</h1>
+            </caption>
             @foreach ($questionaire->criterias as $key => $criteria)
             {{-- {{ dd($criteria->questions) }} --}}
                 <thead class="border-b-2 border-gray-200">
@@ -19,23 +21,71 @@
                         <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">S</th>
                         <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">VS</th>
                         <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">O</th>
-                   
+                        <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">Mean</th>
+                        <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">QD</th>
+                    @else
+                        <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
+                        <th class="w-24 p-3 text-sm font-semibold tracking-wide text-left"></th>
+                        <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left"></th>
+                        <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left"></th>
+                        <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left"></th>
+                        <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">Mean</th>
+                        <th class="w-32 p-3 text-sm font-semibold tracking-wide text-left">QD</th>
                     @endif
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                   @foreach ($criteria->questions as $key =>$question)
-                    {{-- {{ dd($criteria) }} --}}
+                       
                     <tr class="bg-white">
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap"></td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ $key+1}}. {{ $question->question }}</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ $question->NI }}</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ $question->F }}</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ $question->S }}</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ $question->VS }}</td>
-                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ $question->O }}</td>
+                        
+                        <td colspan="2" class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ $key+1}}. {{ $question->question }}</td>
+                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                            <form action="{{ route('evaluation-form-question',[ $instructor->id,$question->id]) }}" method="GET">
+                                <input type="hidden" name="questionaire_id" value="{{ $questionaire->id }}">
+                                <input type="hidden" name="rating" value="1">
+                                <button type="submit">{{ $question->NI }}</button>
+                            </form>
+                        </td>
+                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                            <form action="{{ route('evaluation-form-question',[ $instructor->id,$question->id]) }}" method="GET">
+                                <input type="hidden" name="questionaire_id" value="{{ $questionaire->id }}">
+                                <input type="hidden" name="rating" value="2">
+                                <button type="submit">{{$question->F }}</button>
+                            </form>
+                        </td>
+                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                            <form action="{{ route('evaluation-form-question',[ $instructor->id,$question->id]) }}" method="GET">
+                                <input type="hidden" name="questionaire_id" value="{{ $questionaire->id }}">
+                                <input type="hidden" name="rating" value="3">
+                                <button type="submit">{{$question->S }}</button>
+                            </form>
+                        </td>
+                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                            <form action="{{ route('evaluation-form-question',[ $instructor->id,$question->id]) }}" method="GET">
+                                <input type="hidden" name="questionaire_id" value="{{ $questionaire->id }}">
+                                <input type="hidden" name="rating" value="4">
+                                <button type="submit">{{$question->VS }}</button>
+                            </form>
+                        </td>
+                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
+                            <form action="{{ route('evaluation-form-question',[ $instructor->id,$question->id]) }}" method="GET">
+                                <input type="hidden" name="questionaire_id" value="{{ $questionaire->id }}">
+                                <input type="hidden" name="rating" value="5">
+                                <button type="submit">{{$question->O }}</button>
+                            </form>
+                        </td>
+                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap font-bold">{{round($question->ratings_avg_rating,2) }}</td>
+                        <td class="p-3 text-sm text-gray-700 whitespace-nowrap font-bold">{{ $question->mean['QD'] }}</td>
                     </tr>
                   @endforeach
+                  <tr class="bg-white">
+                    <td colspan="2" class="p-3 text-sm text-gray-700 whitespace-nowrap"></td>
+                    
+                    <td colspan="5" class="p-3 text-sm text-gray-700 whitespace-nowrap text-right font-bold">Total Mean</td>
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap font-bold">TEST</td>
+                    <td class="p-3 text-sm text-gray-700 whitespace-nowrap font-bold">asd</td>
+                </tr>
                 </tbody>
             @endforeach
           

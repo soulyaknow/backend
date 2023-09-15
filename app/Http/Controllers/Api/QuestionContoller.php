@@ -11,10 +11,10 @@ class QuestionContoller extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    public function index(Questionaire $questionaire)
     {
         // dd($id);
-        $questionaire = Questionaire::where('id', $id)
+        $questionaire 
                                     ->with('criterias.questions')
                                     ->first();
         return view('questions.index',compact('questionaire'));

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Question;
 use App\Models\Rating;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -30,5 +31,8 @@ class Criteria extends Model
         return $this->hasManyThrough(Rating::class,Question::class);
     }
 
-    // public function scope
+    public function scopeQuestionWithRatingsForm(Builder $query,$id)
+    {
+
+    }
 }

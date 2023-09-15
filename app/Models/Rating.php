@@ -27,7 +27,8 @@ class Rating extends Model
     }
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'evaluator_id','id_number');
+    
     }
 
     public function scopeQuestionRatingCount(Builder $query,$id,$rating)
@@ -49,7 +50,7 @@ class Rating extends Model
     // {
 
     // }
-    public function scopeCountRatingsBySubject(Builder $query,$instructor_id,$rating)
+    public function scopeRatingsBySubject(Builder $query,$instructor_id,$rating)
     {
         $query->whereHasMorph(
             'ratingable',
