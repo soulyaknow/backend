@@ -1,18 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\InstructorResource;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
 
-class CriteriaContoller extends Controller
+class InstructorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $instructors = cache()->remember(
+                                        'instructors',
+                                        3600, 
+                                        fn()=> Instructor::all()
+                                    );
+        return InstructorResource::collection($instructors);
     }
 
     /**

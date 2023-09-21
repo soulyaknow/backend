@@ -51,19 +51,15 @@ class InstructorController extends Controller
         //                             ->where('id',1)
         //                             ->first();
         // dd( $criteria->questionaire);
-        $question = Question::with([
-                                    'criteria' =>function($query)use($request){
-                                        $query->with([
-                                            'questionaire' => function($query) use($request){
-                                                $query->wherePivot('questionaire_id',$request->questionaire_id)
-                                                      ->select(['title','description'])
-                                                ;
-                                            }
-                                        ])->select(['id','description'])
-                                      
-                                        ;
-                                    }
-                                ])
+        $question = Question::with(['criteria' =>function($query)use($request){
+                                            $query->with([
+                                                'questionaire' => function($query) use($request){
+                                                    $query->wherePivot('questionaire_id',$request->questionaire_id)
+                                                        ->select(['title','description']);
+                                                }
+                                            ])->select(['id','description']);
+                                        }
+                                    ])
                                 ->with([
                                         'ratings'=> function($query)use($request,$instructor_id){
                                             $query->with([

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+// use App\Models\Instructor;
+// use App\Observers\InstructorObserver;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        JsonResource::withoutWrapping();
+        // Instructor::observe(InstructorObserver::class);
     }
 }

@@ -2,10 +2,11 @@
 
 @section('content')
 {{-- {{ dd($question->criteria->questionaire[0]) }} --}}
-{{-- {{ dd($question->ratings[0]->user) }} --}}
+{{-- {{ dd($question->criteria) }} --}}
 <h1 class="font-bold">{{ $question->criteria->questionaire[0]->title }}</h1>
 <span class="block text-slate-600">{{ $question->criteria->questionaire[0]->description }}</span>
 <span class="block text-slate-600 font-bold">Instructor: {{ $instructor->name }}</span>
+<span class="block text-slate-600 font-bold">Criteria: {{ $question->criteria->description }}</span>
 <span class="block text-slate-600 font-bold">Question: {{ $question->question }}</span>
 
    <table class="w-full border-collapse border border-slate-400 max-w-xl mt-6 mx-auto">

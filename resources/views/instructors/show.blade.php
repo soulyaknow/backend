@@ -7,7 +7,7 @@
             <caption class="caption-top"></caption>
                 <h1 class="mb-3">{{ $questionaire->title }}</h1>
                 <h2 class="mb-3">{{ $questionaire->description }}</h2>
-                <h1 class="font-bold mb-5">{{ $instructor->name }}</h1>
+                <h1 class="font-bold mb-5">Instructor: {{ $instructor->name }}</h1>
             </caption>
             @foreach ($questionaire->criterias as $key => $criteria)
             {{-- {{ dd($criteria->questions) }} --}}

@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Models\Questionaire;
 use Illuminate\Http\Request;
 
-class QuestionContoller extends Controller
+class CriteriaContoller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Questionaire $questionaire)
+    public function index()
     {
-        // dd($id);
-        $questionaire 
-                                    ->with('criterias.questions')
-                                    ->first();
-        return view('questions.index',compact('questionaire'));
+        //
     }
 
     /**
