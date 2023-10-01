@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Question extends Model
 {
@@ -31,6 +32,10 @@ class Question extends Model
     // {
     //     return $this->belongsToMany(User::class,'ratings',);
     // }
+    public function users(): HasManyThrough
+    {
+        return $this->hasManyThrough(User::class,Rating::class,'question_id','id_number','id','evaluator_id');
+    }
     public function scopeCountRatingsBySubject(Builder $query,$id,$rating)
     {
         $query->withCount([

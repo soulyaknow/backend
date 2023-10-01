@@ -16,6 +16,7 @@ class Criteria extends Model
     use HasFactory;
 
     protected $fillable = ['description'];
+    protected $hidden = ['pivot'];
 
     public function questionaire(): BelongsToMany
     {
