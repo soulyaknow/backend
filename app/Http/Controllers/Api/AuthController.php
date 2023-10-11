@@ -12,31 +12,31 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // $request->validate([
-        //     'id_number' => 'required|numeric',
-        //     'password' => 'required',
-        // ]);
-        // $user = User::where('id_number', $request->id_number)->first();
-        // if(!$user|| !Hash::check($request->password, $user->password)){
+        $request->validate([
+            'id_number' => 'required|numeric',
+            'password' => 'required',
+        ]);
+        $user = User::where('id_number', $request->id_number)->first();
+        if(!$user|| !Hash::check($request->password, $user->password)){
       
-        //     throw ValidationException::withMessages([
-        //         'id_number' => 'The credentials you entered do not match'
-        //     ]);
-        // }
+            throw ValidationException::withMessages([
+                'id_number' => 'The credentials you entered do not match'
+            ]);
+        }
 
-        // return response()->json([
-        //     'token' => $user->createToken('laravel_api_token')->plainTextToken,
-        //     'user' => $user 
-        // ]);
         return response()->json([
-            'id_number' =>  $request->id_number,
-            'password' =>$request->password,
-            'from_backend' => true
+            'token' => $user->createToken('laravel_api_token')->plainTextToken,
+            'user' => $user 
         ]);
     }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+    }
+    
+    public function register()
+    {
+
     }
 }
