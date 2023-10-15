@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('evaluator_id')->constrained('users','id_number');
             $table->foreignId('question_id')->constrained();
-            $table->morphs('ratingable');
             $table->integer('rating');
+            $table->morphs('ratingable');
             $table->timestamps();
         });
     }

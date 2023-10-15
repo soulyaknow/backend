@@ -34,15 +34,34 @@ class DatabaseSeeder extends Seeder
             });
             foreach($criterias as $criteria){
                 Question::factory(5)->create(['criteria_id' => $criteria->id])->each(function($question)use($users,$instructors){
-                    foreach($instructors as $instructor){
-                        foreach($users as $user){
+                    // foreach($instructors as $instructor){
+                    //     foreach($users as $user){
+                    //         $instructor->ratings()->create([
+                    //             'evaluator_id' => $user->id_number,
+                    //             'question_id' => $question->id,
+                    //             'rating' => fake()->numberBetween(1,5)
+                    //         ]);
+                    //     };
+                    // };
+
+                    foreach($users as $user){
+                        foreach($instructors as $instructor){
                             $instructor->ratings()->create([
                                 'evaluator_id' => $user->id_number,
                                 'question_id' => $question->id,
                                 'rating' => fake()->numberBetween(1,5)
                             ]);
+                            // Rating::factory()->create([
+                            //     'evaluator_id' => $user->id_number,
+                            //     'question_id' => $question->id,
+                            //     'rating' => fake()->numberBetween(1,5),
+                            //     'ratingable_id' => $instructor->id,
+                            //     'ratingable_type' => 'App\Models\Instructor'
+                            // ]);
                         }
-                    };
+                    }
+
+                
                 });
             }
         }

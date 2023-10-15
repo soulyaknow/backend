@@ -29,7 +29,7 @@ class User extends Authenticatable
         'name',
         'password',
     ];
-    protected $primaryKey = 'id_number';
+    // protected $primaryKey = 'id_number';
     /**
      * The attributes that should be hidden for serialization.
      *

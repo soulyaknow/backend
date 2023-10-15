@@ -13,9 +13,13 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Rating extends Model
 {
     use HasFactory;
-
     
-    protected $fillable = ['ratings'];
+    protected $fillable = [
+        'evaluator_id',
+        'question_id',
+        'ratings'
+    ];
+
     public function ratingable(): MorphTo
     {
         return $this->morphTo();
