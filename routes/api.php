@@ -14,12 +14,12 @@ Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum'],function(){
 
 });
 
-Route::prefix('auth')->controller(AuthController::class)->group(function(){
-    Route::post('/login','login');
-    Route::post('/logout','logout')->middleware('auth:sanctum');
-});
+// Route::prefix('auth')->controller(AuthController::class)->group(function(){
+//     Route::post('/login','login');
+//     Route::post('/logout','logout')->middleware('auth:sanctum');
+// });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return auth()->user();
 });
 
