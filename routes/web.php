@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Api\QuestionContoller;
-
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InstructorController;

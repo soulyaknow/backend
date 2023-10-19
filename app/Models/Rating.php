@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Rating extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'evaluator_id',
         'question_id',
-        'ratings'
+        'rating'
     ];
 
     public function ratingable(): MorphTo
@@ -32,7 +32,7 @@ class Rating extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class,'evaluator_id','id_number');
-    
+
     }
 
     public function scopeQuestionRatingCount(Builder $query,$id,$rating)

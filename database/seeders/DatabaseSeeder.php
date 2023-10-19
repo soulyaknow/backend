@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         $instructors = Instructor::factory(10)->create();
         $questionaires = Questionaire::factory(2)->create();
 
-  
+
         foreach($questionaires as $questionaire){
             $criterias = Criteria::factory(5)->create()->each(function($criteria)use ($questionaire){
                 $questionaire->criterias()->attach($criteria->id);
@@ -44,29 +44,22 @@ class DatabaseSeeder extends Seeder
                     //     };
                     // };
 
-                    foreach($users as $user){
-                        foreach($instructors as $instructor){
-                            $instructor->ratings()->create([
-                                'evaluator_id' => $user->id_number,
-                                'question_id' => $question->id,
-                                'rating' => fake()->numberBetween(1,5)
-                            ]);
-                            // Rating::factory()->create([
-                            //     'evaluator_id' => $user->id_number,
-                            //     'question_id' => $question->id,
-                            //     'rating' => fake()->numberBetween(1,5),
-                            //     'ratingable_id' => $instructor->id,
-                            //     'ratingable_type' => 'App\Models\Instructor'
-                            // ]);
-                        }
-                    }
+                    // foreach($users as $user){
+                    //     foreach($instructors as $instructor){
+                    //         $instructor->ratings()->create([
+                    //             'evaluator_id' => $user->id_number,
+                    //             'question_id' => $question->id,
+                    //             'rating' => fake()->numberBetween(1,5)
+                    //         ]);
+                    //     }
+                    // }
 
-                
+
                 });
             }
         }
 
-  
+
         $this->call([PivotSeeder::class]);
 
 

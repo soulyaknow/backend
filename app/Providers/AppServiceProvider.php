@@ -5,9 +5,11 @@ namespace App\Providers;
 // use App\Models\Instructor;
 // use App\Observers\InstructorObserver;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Http\Resources\Json\JsonResource;
+// use App\Models\Instructor;
+// use App\Observers\InstructorObserver;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,8 +28,8 @@ class AppServiceProvider extends ServiceProvider
     {
         JsonResource::withoutWrapping();
         // Instructor::observe(InstructorObserver::class);
-        // Relation::morphMap([
-        //     'Instructor' =>'App\Models\Instructor'
-        // ]);
+        Relation::morphMap([
+            'Instructor' =>'App\Models\Instructor'
+        ]);
     }
 }

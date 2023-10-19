@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Instructor;
 use Illuminate\Http\Request;
 
 class RatingContoller extends Controller
@@ -28,7 +29,13 @@ class RatingContoller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $instructor = Instructor::findOrFail($request->instructorId);
+            $instructor->ratings()->createMany($request->val);
+            return response()->json(['code'=>201,'success'=>'ratings successfully created']);
+        }catch(\Exception $e){
+            return response()->json(['error'=>$e]);
+        }
     }
 
     /**
