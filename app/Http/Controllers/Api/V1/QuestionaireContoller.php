@@ -19,7 +19,7 @@ class QuestionaireContoller extends Controller
                                                 $query->with([
                                                               'questions' =>function($q){
                                                                     $q->select(['id','question','criteria_id']);
-                                                              }
+                                                            }
                                                         ])
                                                       ->select(['id','description']);
                                             }

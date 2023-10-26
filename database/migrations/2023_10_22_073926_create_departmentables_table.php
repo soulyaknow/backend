@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('criteria_questionaire', function (Blueprint $table) {
-            $table->foreignId('criteria_id')->constrained();
-            $table->foreignId('questionaire_id')->constrained();
+        Schema::create('departmentables', function (Blueprint $table) {
+            $table->foreignId('department_id')->constrained();
+            $table->morphs('departmentable');
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('criteria_questionaire');
+        Schema::dropIfExists('department_user');
     }
 };

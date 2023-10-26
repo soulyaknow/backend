@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
         }
 
 
-        $this->call([PivotSeeder::class]);
+        $this->call([PivotSeeder::class,DepartmentSeeder::class]);
 
 
 

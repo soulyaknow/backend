@@ -1,13 +1,13 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\V1\RatingContoller;
 use App\Http\Controllers\Api\V1\InstructorController;
 use App\Http\Controllers\Api\V1\QuestionaireContoller;
-use App\Http\Controllers\Api\V1\RatingContoller;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-
-
+use App\Http\Resources\UserResource;
 
 Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum'],function(){
     Route::apiResource('instructors',InstructorController::class);
@@ -21,6 +21,8 @@ Route::prefix('auth')->controller(AuthController::class)->group(function(){
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return auth()->user();
+
+    // $user = User::with('departments')->find(auth()->user()->id_number);
+    return new UserResource(auth()->user()->load(['departments']) );
 });
 

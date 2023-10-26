@@ -16,8 +16,8 @@ class InstructorController extends Controller
     {
         $instructors = cache()->remember(
                                         'instructors',
-                                        3600, 
-                                        fn()=> Instructor::all()
+                                        3600,
+                                        fn()=> Instructor::with('departments')->get(),
                                     );
         return InstructorResource::collection($instructors);
     }

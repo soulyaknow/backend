@@ -29,7 +29,8 @@ class AppServiceProvider extends ServiceProvider
         JsonResource::withoutWrapping();
         // Instructor::observe(InstructorObserver::class);
         Relation::morphMap([
-            'Instructor' =>'App\Models\Instructor'
+            'Instructor' =>'App\Models\Instructor',
+            'User'=> 'App\Models\User',
         ]);
     }
 }
