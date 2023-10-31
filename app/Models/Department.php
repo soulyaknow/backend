@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\Instructor;
+use App\Models\Evaluatee;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,11 +15,11 @@ class Department extends Model
 
     public function users()
     {
-      return $this->morphedByMany(User::class, 'departmentables')->withTimestamps();;
+      return $this->morphedByMany(User::class, 'departmentable')->withTimestamps();
     }
 
-    public function instructors()
+    public function evaluatees()
     {
-        return $this->morphedByMany(Instructor::class,'departmentables')->withTimestamps();
+        return $this->morphedByMany(Evaluatee::class,'departmentable')->withTimestamps();
     }
 }

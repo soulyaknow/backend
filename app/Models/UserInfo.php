@@ -10,8 +10,21 @@ class UserInfo extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'year',
+      'section',
+      'mobile_number',
+        'course',
+        'email',
+        'email_verified_at',
+    ];
+
     public function user()
     {
-       return $this->belongsTo(User::class,'user_id','id_number');
+       return $this->belongsTo(User::class,'id_number','user_id');
     }
 }

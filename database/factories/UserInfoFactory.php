@@ -20,7 +20,7 @@ class UserInfoFactory extends Factory
             'first_name' =>fake()->firstName(),
             'middle_name' =>fake()->firstName(),
             'last_name'=>fake()->lastName(),
-            'year' => fake()->year,
+            'year' => fake()->randomElement(['1st','2nd','3rd','4th']),
             'section' => fake()->randomElement(['A','B','C']),
             'mobile_number' => fake()->numerify('###########'),
             'course'=>  fake()->randomElement(['BSIT','BEED','BSHRM']),

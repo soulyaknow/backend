@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ratings', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('evaluator_id')->constrained('users','id_number');
-            $table->foreignId('question_id')->constrained();
-            $table->foreignId('evaluatee_id')->constrained();
-            $table->integer('rating');
+        Schema::create('roleables', function (Blueprint $table) {
+            $table->foreignId('role_id')->constrained();
+            $table->morphs('roleable');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ratings');
+        Schema::dropIfExists('roleables');
     }
 };

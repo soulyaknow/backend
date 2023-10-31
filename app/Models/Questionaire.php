@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use App\Models\Criteria;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Evaluatee;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 // use Illuminate\Database\Eloquent\Relations\HasMany;
 // use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Questionaire extends Model
 {
     use HasFactory;
-    
+
     protected $fillable =[
         'title',
         'description'
@@ -23,10 +24,10 @@ class Questionaire extends Model
     {
         return $this->belongsToMany(Criteria::class,'criteria_questionaire')->withTimestamps();
     }
-    
-    public function instructors()
+
+    public function evaluatees(): BelongsToMany
     {
-        return $this->morphedByMany(Instructor::class,'evaluatable')->withTimestamps();
+        return $this->belongsToMany(Evaluatee::class,'evaluatees_questionaires')->withTimestamps();
     }
 
     public function scopeQuestionaireWithCriteria(Builder $query, $id= null)
@@ -67,13 +68,7 @@ class Questionaire extends Model
                         ])
                         ->withAvg([
                             'ratings' => function($query)use($id){
-                                $query->whereHasMorph(
-                                    'ratingable',
-                                    Instructor::class,
-                                    function(Builder $q)use($id){
-                                        $q->where('ratingable_id',$id);
-                                    });
-                                ;
+                                $query->where('evaluatee_id',$id);
                             }
                             ],'rating')
                         ;
@@ -81,6 +76,6 @@ class Questionaire extends Model
                 ]);
             }
             ])
-           ;
+        ;
     }
 }

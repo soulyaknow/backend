@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Question;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Question;
+use App\Models\Evaluatee;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rating extends Model
 {
@@ -17,12 +17,13 @@ class Rating extends Model
     protected $fillable = [
         'evaluator_id',
         'question_id',
+        'evaluatees_id',
         'rating'
     ];
 
-    public function ratingable(): MorphTo
+    public function evaluatees(): BelongsTo
     {
-        return $this->morphTo();
+        return $this->belongsTo(Evaluatee::class);
     }
 
     public function question(): BelongsTo
@@ -35,7 +36,7 @@ class Rating extends Model
 
     }
 
-    public function scopeQuestionRatingCount(Builder $query,$id,$rating)
+    public function scopeQuestionRatingCount(Builder $query,$qid,$rating)
     {
         // return $query->whereHasMorph('ratingable',Instructor::class, function(Builder $q)use($rating){
         //     $q->where('rating', $rating);
@@ -43,7 +44,7 @@ class Rating extends Model
         // return $query->withCount(['rating' => function($q)use($rating){
         //     $q->where('rating', $rating)->get();
         // }]);
-        return $query->where('question_id',$id)
+        return $query->where('question_id',$qid)
                      ->where('rating',$rating)->count();
     }
     // private function scopeSearchUser()
@@ -56,12 +57,7 @@ class Rating extends Model
     // }
     public function scopeRatingsBySubject(Builder $query,$instructor_id,$rating)
     {
-        $query->whereHasMorph(
-            'ratingable',
-            Instructor::class,
-            function(Builder $q)use($instructor_id,$rating){
-                $q->where('ratingable_id',$instructor_id)
-                    ->where('rating',$rating);
-            });
+        $query->where('evaluatee_id',$instructor_id)
+        ->where('rating',$rating);
     }
 }

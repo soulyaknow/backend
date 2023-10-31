@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('evaluatables', function (Blueprint $table) {
-            $table->foreignId('questionaire_id')->constrained();
-            $table->morphs('evaluatable');
+        Schema::create('evaluatees', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('evaluatables');
+        Schema::dropIfExists('evaluatees');
     }
 };

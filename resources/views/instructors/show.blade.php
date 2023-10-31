@@ -1,8 +1,8 @@
 @extends('layout.app')
 
 @section('content')
- 
-    {{-- {{ dd($criterias) }} --}}
+
+    {{-- {{ dd($questionaire) }} --}}
         <table class="w-full">
             <caption class="caption-top"></caption>
                 <h1 class="mb-3">{{ $questionaire->title }}</h1>
@@ -36,9 +36,9 @@
                 </thead>
                 <tbody class="divide-y divide-gray-100">
                   @foreach ($criteria->questions as $key =>$question)
-                       
+
                     <tr class="bg-white">
-                        
+
                         <td colspan="2" class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ $key+1}}. {{ $question->question }}</td>
                         <td class="p-3 text-sm text-gray-700 whitespace-nowrap">
                             <form action="{{ route('evaluation-form-question',[ $instructor->id,$question->id]) }}" method="GET">
@@ -81,15 +81,15 @@
                   @endforeach
                   <tr class="bg-white">
                     <td colspan="2" class="p-3 text-sm text-gray-700 whitespace-nowrap"></td>
-                    
+
                     <td colspan="5" class="p-3 text-sm text-gray-700 whitespace-nowrap text-right font-bold">Total Mean</td>
                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap font-bold">TEST</td>
                     <td class="p-3 text-sm text-gray-700 whitespace-nowrap font-bold">asd</td>
                 </tr>
                 </tbody>
             @endforeach
-          
+
         </table>
-   
-    
+
+
 @endsection

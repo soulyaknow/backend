@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Criteria;
+use App\Models\Evaluatee;
 use App\Models\Instructor;
 use App\Models\Question;
 use App\Models\Questionaire;
 use App\Models\Rating;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,14 +34,14 @@ class InstructorController extends Controller
         //     'ratings'=> function($query)use($request,$instructor_id){
         //         $query
         //             // ->with('user')
-        //               ->ratingsBySubject($instructor_id,$request->rating)    
+        //               ->ratingsBySubject($instructor_id,$request->rating)
         //         ;
         //     }
         // ])->get();
         // $users = User::with(
         //     'ratings')->get();
         // dd($users[0]);
-        $instructor = Instructor::where('id',$instructor_id)
+        $instructor = Evaluatee::where('id',$instructor_id)
                                   ->select(['id','name'])
                                   ->first();
         // dd( $instructor);
@@ -64,10 +66,10 @@ class InstructorController extends Controller
                                         'ratings'=> function($query)use($request,$instructor_id){
                                             $query->with([
                                                     'user' => function($query){
-                                                        $query->select(['id_number','name','department']);
+                                                        $query->select(['id_number','name']);
                                                     }
                                                 ])
-                                                ->ratingsBySubject($instructor_id,$request->rating)    
+                                                ->ratingsBySubject($instructor_id,$request->rating)
                                             ;
                                         }
                                 ])
@@ -81,7 +83,11 @@ class InstructorController extends Controller
         // $questionaire = Questionaire::where('id', $id)
         //                             ->with('instructors')
         //                             ->first();
-        $instructors = Instructor::all();
+        // $instructors = Evaluatee::with('roles')->get();
+        // $instructors = Evaluatee::with(['roles' => function($query){
+        //                             $query->where('name','guard');
+        //                                 }])->get();
+        $instructors = Role::with('evaluatees')->where('name','instructor')->first();
         return view('instructors.index',compact('instructors'));
     }
 
@@ -90,15 +96,17 @@ class InstructorController extends Controller
      */
     public function show(int $id)
     {
-        $instructor = Instructor::where('id',$id)->first();
-      
-        $questionaire = $instructor->questionaires()->evaluationFormFor($id)->where('id',1)->first();
+
+        $instructor = Evaluatee::where('id',$id)->first();
+
+        $questionaire = $instructor->questionaires()->evaluationFormFor($id)->where('id',$id)->first();
         // dd($q);
         // $questionaire = Questionaire::evaluationFormFor($id)->first();
         // $questionaire =  $q->with('criterias')->get();
         // dd($questionaire );
+        // return view('instructors.show',compact(['questionaire','instructor']));
         return view('instructors.show',compact(['questionaire','instructor']));
-      
+
     }
 
 }

@@ -40,13 +40,8 @@ class Question extends Model
     {
         $query->withCount([
                 'ratings' => function($query)use($id,$rating){
-                    $query->whereHasMorph(
-                            'ratingable',
-                            Instructor::class,
-                            function(Builder $q)use($id,$rating){
-                                $q->where('ratingable_id',$id)
-                                    ->where('rating',$rating);
-                            });
+                    $query->where('evaluator_id',$id)
+                          ->where('rating',$rating);
                 }
             ]);
     }
@@ -72,7 +67,7 @@ class Question extends Model
             get: function($value,$attribute){
                 $totalEvaluator =  $attribute['NI'] + $attribute['F'] +$attribute['S'] +$attribute['VS'] + $attribute['O'];
                 $calculate = $attribute['NI'] + ($attribute['F'] * 2) + ($attribute['S'] * 3) + ($attribute['VS'] * 4) + ($attribute['O'] * 5) ;
-                $mean = $calculate / $totalEvaluator ; 
+                $mean = $calculate / $totalEvaluator ;
 
                 return  array(
                     'mean' => $mean,
@@ -84,18 +79,34 @@ class Question extends Model
 
     private function findQd($mean)
     {
-        if ($mean >= 4.21 && $mean <= 5) {
-            return 'O';
-        } elseif ($mean >= 3.41 && $mean < 4.21) {
-            return 'VS';
-        } elseif ($mean >= 2.61 && $mean < 3.41) {
-            return 'S';
+        // if ($mean >= 4.21 && $mean <= 5) {
+        //     return 'O';
+        // } elseif ($mean >= 3.41 && $mean < 4.21) {
+        //     return 'VS';
+        // } elseif ($mean >= 2.61 && $mean < 3.41) {
+        //     return 'S';
+        // } elseif ($mean >= 1.81 && $mean < 2.61) {
+        //     return 'F';
+        // } elseif ($mean >= 1 && $mean < 1.81) {
+        //     return 'IN';
+        // } else {
+        //     return 'FUCK';
+        // }
+
+        if ($mean >= 1 && $mean < 1.81 ) {
+            return 'IN';
         } elseif ($mean >= 1.81 && $mean < 2.61) {
             return 'F';
-        } elseif ($mean >= 1 && $mean < 1.81) {
-            return 'IN';
+        } elseif ($mean >= 2.61 && $mean < 3.41) {
+            return 'S';
+        } elseif ($mean >= 3.41 && $mean < 4.21) {
+            return 'VS';
+        } elseif ($mean >= 4.21 && $mean <= 5) {
+            return 'O';
         } else {
             return 'FUCK';
         }
+
+
     }
 }

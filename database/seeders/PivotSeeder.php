@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Instructor;
+use App\Models\Role;
+use App\Models\Evaluatee;
 use App\Models\Questionaire;
 use Illuminate\Database\Seeder;
 
@@ -13,14 +14,14 @@ class PivotSeeder extends Seeder
      */
     public function run(): void
     {
-        \Illuminate\Support\Facades\DB::table('evaluatables')->delete();
+
         $questionaires = Questionaire::all();
-        $instructors = Instructor::all();
+        $evaluatees = Evaluatee::all();
 
 
         foreach($questionaires as $questionaire){
-            foreach($instructors as $instructor){
-                $instructor->questionaires()->attach($questionaire->id);
+            foreach($evaluatees as $evaluatee){
+                $evaluatee->questionaires()->attach($questionaire->id);
             }
         }
     }
