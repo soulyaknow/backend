@@ -18,7 +18,10 @@ class QuestionaireFactory extends Factory
     {
         return [
             'title' => ucfirst(fake()->words(rand(1,2), true)),
-            'description' => fake()->paragraph(1)
+            'description' => fake()->paragraph(1),
+            'semester' => fake()->randomElement(['1st','2nd']),
+            'school_year' => fake()->year() . '-' . fake()->year(),
+            'description' => fake()->paragraph(1),
         ];
     }
 }

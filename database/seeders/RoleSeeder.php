@@ -25,8 +25,8 @@ class RoleSeeder extends Seeder
         $roleForStudent = Role::where('name','student')->first();
         $roleForGuard = Role::where('name','guard')->first();
         $roleForInstructor = Role::where('name','instructor')->first();
-        // $roleForStaff = Role::where('name','stuff')->first();
-        // $roleForAdmin = Role::where('name','admin')->first();
+        $roleForStaff = Role::where('name','stuff')->first();
+        $roleForAdmin = Role::where('name','admin')->first();
 
 
         foreach ($users as $user) {
@@ -43,13 +43,10 @@ class RoleSeeder extends Seeder
         }
 
 
-        // User::factory(1)->create(['id_number' => 11111,'name'=>'ADMIN'])->each(function($user)  use($roleForAdmin){
-        //     $user->roles()->attach($roleForAdmin->id);
-        // });
-
-        // User::factory(1)->create(['id_number' => 22222,'name'=>'STUFF'])->each(function($user)  use($roleForStaff){
-        //     $user->roles()->attach($roleForStaff->id);
-        // });
+        $admin = User::factory()->create(['id_number' => 11111]);
+        $admin ->roles()->attach($roleForAdmin->id);
+        $staff = User::factory()->create(['id_number' => 22222]);
+        $staff->roles()->attach($roleForStaff->id);
 
     }
 }

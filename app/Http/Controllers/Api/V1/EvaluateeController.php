@@ -10,9 +10,9 @@ class EvaluateeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return 'test';
     }
 
     /**

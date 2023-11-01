@@ -17,7 +17,10 @@ class Questionaire extends Model
 
     protected $fillable =[
         'title',
-        'description'
+        'description',
+        'semester',
+        'school_year',
+        'max_respondents',
     ];
 
     public function criterias(): BelongsToMany

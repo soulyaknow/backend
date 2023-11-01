@@ -16,19 +16,10 @@ class UserResource extends JsonResource
     {
         return [
             'id_number' => $this->id_number,
-            'name' => $this->name,
-            'departments' => $this->extractDeparments($this->departments),
+            'departments' => DepartmentResource::collection($this->whenLoaded('departments')),
+            'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'info' => UserInfoResource::make($this->whenLoaded('userInfo')),
         ];
     }
 
-    private function extractDeparments($values) // extract departments
-    {
-        $departments = [];
-
-        foreach($values as $value){
-            array_push($departments, $value->department);
-        }
-
-        return $departments;
-    }
 }

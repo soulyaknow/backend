@@ -18,7 +18,7 @@ class AuthController extends Controller
         ]);
         $user = User::where('id_number', $request->id_number)->first();
         if(!$user|| !Hash::check($request->password, $user->password)){
-      
+
             throw ValidationException::withMessages([
                 'id_number' => 'The credentials you entered do not match'
             ]);
@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $user->createToken('laravel_api_token')->plainTextToken,
-            'user' => $user 
+            'user' => $user
         ]);
     }
 
@@ -34,7 +34,7 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
     }
-    
+
     public function register()
     {
 
