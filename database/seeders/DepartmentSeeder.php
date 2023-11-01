@@ -15,7 +15,7 @@ class DepartmentSeeder extends Seeder
     public function run(): void
     {
 
-        $deparments = ['BSIT','BEED','BSHRM'];
+        $deparments = ['bsit','beed','bshrm','guard','canteen-staff'];
             foreach($deparments as $deparment){
                 Department::create(['department'=> $deparment]);
             }
@@ -31,8 +31,13 @@ class DepartmentSeeder extends Seeder
        }
        foreach($evaluatees as $evaluatee){
             if($evaluatee->roles[0]->name === 'instructor'){
-                $department = Department::inRandomOrder()->first();
-                $evaluatee->departments()->attach($department->id);
+                $department = Department::all()->except([4,5]);
+                $randomDepartment = $department->random();
+                $evaluatee->departments()->attach($randomDepartment->id);
+            }else{
+                $department = Department::all()->except([1,2,3]);
+                $randomDepartment = $department->random();
+                $evaluatee->departments()->attach($randomDepartment->id);
             }
 
        }

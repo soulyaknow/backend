@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Models\Evaluatee;
+use App\Models\Department;
 use Illuminate\Http\Request;
-use PDOException;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\DepartmentResource;
 
-class RatingContoller extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $departments = Department::all();
+        return DepartmentResource::collection($departments);
     }
 
     /**
@@ -30,13 +31,7 @@ class RatingContoller extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $evaluatee = Evaluatee::findOrFail($request->instructorId);
-            $evaluatee->ratings()->createMany($request->val);
-            return response()->json(['code'=>201,'success'=>'ratings successfully created']);
-        }catch( PDOException  $e){
-            return response()->json(['error'=>$e]);
-        }
+        //
     }
 
     /**
