@@ -21,11 +21,18 @@ class EvaluateeController extends Controller
 
     }
 
-    public function evaluated(Request $request){
+    public function evaluated(Request $request)
+    {
         $evaluateed = User::with(['evaluatees' => function($query){
                         $query->with(['departments','roles']);
                     }])->findOrFail($request->user_id);
         return  new UserResource($evaluateed);
+
+    }
+
+    public function notYetEvaluated(Request $request)
+    {
+
 
     }
 

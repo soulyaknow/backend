@@ -30,8 +30,11 @@ class DatabaseSeeder extends Seeder
 
 
         foreach($users as $user){
-            foreach($evaluatees as $evaluatee){
-                $evaluatee->users()->attach($user->id_number);
+            foreach($evaluatees as $key =>  $evaluatee){
+                if($key < 15){
+                    $evaluatee->users()->attach($user->id_number);
+                }
+
             }
             UserInfo::factory()->create(['user_id' => $user->id_number]);
         }

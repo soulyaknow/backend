@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\v1;
 
-use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\RoleResource;
+use App\Http\Resources\UserResource;
 
-class RoleController extends Controller
+class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $roles = Role::all()->except([2]);
-        return RoleResource::collection($roles);
+        $users = User::with(['roles','userInfo','departments'])->get();
+        return  UserResource::collection($users);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function getUser()
+    {
+        $user = User::with(['departments','roles','userInfo'])->findOrFail(auth()->user()->id_number);
+        return new UserResource($user);
+    }
+
     public function create()
     {
         //

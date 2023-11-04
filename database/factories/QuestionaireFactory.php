@@ -21,6 +21,7 @@ class QuestionaireFactory extends Factory
             'description' => fake()->paragraph(1),
             'semester' => fake()->randomElement(['1st','2nd']),
             'school_year' => fake()->year() . '-' . fake()->year(),
+            'max_respondents' => 100,
             'description' => fake()->paragraph(1),
         ];
     }

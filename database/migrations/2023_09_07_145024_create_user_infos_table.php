@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users','id_number');
-            $table->string('first_name');
+            $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
-            $table->string('last_name');
-            $table->string('year');
-            $table->string('section');
+            $table->string('last_name')->nullable();
+            $table->string('year')->nullable();
+            $table->string('section')->nullable();
             $table->unsignedBigInteger('mobile_number')->nullable();
-            $table->string('course');
-            $table->string('email')->unique();
+            $table->string('course')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });

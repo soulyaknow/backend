@@ -8,13 +8,28 @@ use Illuminate\Http\Request;
 
 class QuestionaireContoller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function latestQuestionaire()
     {
         $questionaires = Questionaire::latest()
-                                       ->with([
+                                        ->with([
+                                                'criterias' => function($query){
+                                                    $query->with([
+                                                                'questions' =>function($q){
+                                                                        $q->select(['id','question','criteria_id']);
+                                                                }
+                                                            ])
+                                                        ->select(['id','description']);
+                                                }
+                                        ])
+                                        ->select(['id','title','description'])
+                                        ->first();
+        return response()->json($questionaires);
+    }
+
+    public function index()
+    {
+        $questionaires = Questionaire::with([
                                             'criterias' => function($query){
                                                 $query->with([
                                                               'questions' =>function($q){
@@ -24,8 +39,8 @@ class QuestionaireContoller extends Controller
                                                       ->select(['id','description']);
                                             }
                                        ])
-                                       ->select(['id','title','description'])
-                                       ->first();
+                                       ->select(['id','title','description','semester','school_year','max_respondents'])
+                                       ->get();
         return response()->json($questionaires);
         // return QuestionaireResource::make($questionaires);
     }
