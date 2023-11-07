@@ -23,12 +23,11 @@ class DepartmentSeeder extends Seeder
        $users = User::all();
        $evaluatees = Evaluatee::all();
 
-
-
        foreach($users as $user){
         $randomDepartment = Department::inRandomOrder()->first();
         $user->departments()->attach($randomDepartment->id);
        }
+
        foreach($evaluatees as $key => $evaluatee){
             if($key < 15){
                 $department = Department::all()->except([4,5]);

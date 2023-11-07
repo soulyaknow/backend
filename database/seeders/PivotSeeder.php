@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use App\Models\Evaluatee;
 use App\Models\Questionaire;
 use Illuminate\Database\Seeder;

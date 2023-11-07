@@ -17,11 +17,10 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->string('year')->nullable();
-            $table->string('section')->nullable();
-            $table->unsignedBigInteger('mobile_number')->nullable();
             $table->string('course')->nullable();
             $table->string('email')->unique()->nullable();
+            $table->unsignedBigInteger('mobile_number')->nullable();
+            $table->integer('regular')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });

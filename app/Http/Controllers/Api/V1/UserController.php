@@ -18,8 +18,25 @@ class UserController extends Controller
 
     public function getUser()
     {
-        $user = User::with(['departments','roles','userInfo'])->findOrFail(auth()->user()->id_number);
+        $user = User::with([
+                        'departments',
+                        'roles',
+                        'userInfo',
+                        'sectionYears'
+                            => function($query){
+                            $query->with([
+                                'klasses'
+                                => function($q){
+                                    $q->with(['subject','evaluatee']);
+                                }
+                            ]);
+                        }
+                    ])
+                    ->findOrFail(auth()->user()->id_number);
+
+        // return response()->json($user);
         return new UserResource($user);
+
     }
 
     public function create()

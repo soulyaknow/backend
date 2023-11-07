@@ -33,7 +33,6 @@ class RoleSeeder extends Seeder
 
 
         $admin = User::factory()->create(['id_number' => 11111]);
-        $admin->userInfo()->create(['']);
         $admin ->roles()->attach($roleForAdmin->id);
         $staff = User::factory()->create(['id_number' => 22222]);
         $staff->roles()->attach($roleForStaff->id);

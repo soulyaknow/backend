@@ -5,12 +5,11 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\User;
-use App\Models\Rating;
 use App\Models\Criteria;
 use App\Models\Question;
+use App\Models\UserInfo;
 use App\Models\Evaluatee;
 use App\Models\Questionaire;
-use App\Models\UserInfo;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,51 +19,32 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-    //    User::factory(10)->create()->each(function($user){
-    //         \App\Models\UserInfo::factory()->create(['user_id' => $user->id_number]);
-    //     });
-
-        $users = User::factory(100)->create();
-        $evaluatees = Evaluatee::factory(20)->create();
-        $questionaires = Questionaire::factory(2)->create();
+        $this->call(TestSeeder::class);
+        // $this->call(SubjectSectionSeeder::class);
+        // $users = User::factory(100)->create();
+        // $questionaires = Questionaire::factory(2)->create();
+        // Evaluatee::factory(20)->create();
 
 
-        foreach($users as $user){
-            foreach($evaluatees as $key =>  $evaluatee){
-                if($key < 15){
-                    $evaluatee->users()->attach($user->id_number);
-                }
+        // foreach($users as $user){
+        //     UserInfo::factory()->create(['user_id' => $user->id_number]);
 
-            }
-            UserInfo::factory()->create(['user_id' => $user->id_number]);
-        }
+        // }
+        // foreach($questionaires as $questionaire){
+        //     $criterias = Criteria::factory(5)->create()->each(function($criteria)use ($questionaire){
+        //         $questionaire->criterias()->attach($criteria->id);
+        //     });
+        //     foreach($criterias as $criteria){
+        //         Question::factory(5)->create(['criteria_id' => $criteria->id]);
+        //     }
+        // }
 
-        foreach($questionaires as $questionaire){
-            $criterias = Criteria::factory(5)->create()->each(function($criteria)use ($questionaire){
-                $questionaire->criterias()->attach($criteria->id);
-            });
-            foreach($criterias as $criteria){
-                Question::factory(5)->create(['criteria_id' => $criteria->id])->each(function($question)use($users,$evaluatees){
-                    foreach($users as $user){
-                        foreach($evaluatees as $evaluatee){
-                            $evaluatee->ratings()->create([
-                                'evaluator_id' => $user->id_number,
-                                'question_id' => $question->id,
-                                'rating' => fake()->numberBetween(1,5)
-                            ]);
-                        }
-                    }
-
-
-                });
-            }
-        }
-
-        $this->call([
-            RoleSeeder::class,
-            PivotSeeder::class,
-            DepartmentSeeder::class
-        ]);
+        // $this->call([
+        //     RoleSeeder::class,
+        //     PivotSeeder::class,
+        //     DepartmentSeeder::class,
+        //     ClassListSeeder::class
+        // ]);
 
 
 
@@ -74,9 +54,22 @@ class DatabaseSeeder extends Seeder
 
 
 
+        // foreach($users as $user){
+        //     foreach($evaluatees as $evaluatee){
+        //         $evaluatee->ratings()->create([
+        //             'evaluator_id' => $user->id_number,
+        //             'question_id' => $question->id,
+        //             'rating' => fake()->numberBetween(1,5)
+        //         ]);
+        //     }
+        // }
 
+            // foreach($evaluatees as $key =>  $evaluatee){
+            //     if($key < 15){
+            //         $evaluatee->users()->attach($user->id_number);
+            //     }
 
-
+            // }
 
 
 

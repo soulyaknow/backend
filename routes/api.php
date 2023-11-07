@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\V1\RoleController;
 use App\Http\Controllers\Api\v1\UserController;
@@ -41,3 +42,4 @@ Route::prefix('auth')->controller(AuthController::class)->group(function(){
 });
 
 
+Route::get('/test',[TestController::class,'testModel']);

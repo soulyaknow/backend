@@ -9,9 +9,11 @@ use App\Models\Question;
 use App\Models\UserInfo;
 use App\Models\Evaluatee;
 use App\Models\Department;
+use App\Models\SectionYear;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -31,7 +33,6 @@ class User extends Authenticatable
     public $incrementing = false;
     protected $fillable = [
         'id_number',
-        'name',
         'password',
     ];
     // protected $primaryKey = 'id_number';
@@ -76,7 +77,7 @@ class User extends Authenticatable
     }
 
 
-    public function evaluatees():BelongsToMany
+    public function finishedRated():BelongsToMany
     {
         return $this->belongsToMany(Evaluatee::class,'evaluatees_users','user_id','evaluatee_id')->withTimestamps();
 
@@ -86,4 +87,10 @@ class User extends Authenticatable
     {
         return $this->morphToMany(Role::class,'roleable')->withTimestamps();
     }
+
+    public function sectionYears():BelongsToMany
+    {
+        return $this->belongsToMany(SectionYear::class,'section_per_users','user_id','section_year_id')->withTimestamps();
+    }
+
 }

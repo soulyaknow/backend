@@ -3,20 +3,25 @@
 namespace App\Http\Controllers;
 
 // use App\Models\Criteria;
-use App\Models\Instructor;
-use App\Models\Question;
-use App\Models\Questionaire;
+
+use App\Models\User;
 use App\Models\Rating;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Subject;
+use App\Models\Question;
+use App\Models\Evaluatee;
+use App\Models\Instructor;
+use App\Models\Questionaire;
 // use App\Models\Rating;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use PhpParser\Node\Expr\Eval_;
 
 class TestController extends Controller
 {
     public function index(Request $request)
     {
         $instructor = 1;
-     
+
         // $question = 1;
         // $instructor = Instructor::withCount(['ratings as NI_count'=> function(Builder $q)use($question){
         //                                 $q->where('question_id', $question)->where('rating', 1);
@@ -55,7 +60,7 @@ class TestController extends Controller
                                 //   ->withCount(['ratings'=>function( $q){
                                 //     $q->where('rating',1);
                                 // }])
-                                    
+
             //                       ->get();
             // return response()->json($rating);
             // $questions = Question::withCount(['ratings as NI_counts'=>function($query){
@@ -136,5 +141,41 @@ class TestController extends Controller
     public function test()
     {
         return view('index');
+    }
+
+    public function testModel()
+    {
+        // <<--- this query for evaluatee to subject
+    //    $test = Evaluatee::with('subjects')->where('id',1)->get();
+    //    ---->>
+        // <--- this query for subject to evaluatee
+        // $test = Subject::with('evaluatees')->where('id',1)->get();
+        // --->>
+
+        $test =  User::with([
+                    'userInfo',
+                    'sectionYears'
+                     => function($query){
+                        $query->with([
+                            'klasses'
+                            => function($q){
+                                $q->with('subject');
+                            }
+                        ]);
+                    }
+                ])->find(10074);
+
+        // $test = Evaluatee::with([
+        //                     'klasses' => function($query){
+        //                         $query->with('subject')
+        //                             ->with(['sectionYears'=>function($q){
+        //                                     $q->with('users');
+        //                             }])
+        //                              ->where('subject_id',5)
+        //                              ->get();
+        //                     }
+        //                     ])
+        //                     ->find(1);
+       return response()->json($test);
     }
 }
