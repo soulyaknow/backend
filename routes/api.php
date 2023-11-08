@@ -12,13 +12,13 @@ use App\Http\Controllers\Api\V1\QuestionaireContoller;
 
 Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum'],function(){
 
-    Route::apiResource('questionaire',QuestionaireContoller::class)->only(['index']);
-    Route::get('/questionaire/latest',[QuestionaireContoller::class,'latestQuestionaire']);
+    Route::apiResource('questionaires',QuestionaireContoller::class)->only(['index']);
+    Route::get('/questionaires/latest',[QuestionaireContoller::class,'latestQuestionaire']);
 
-    Route::post('/evaluated',[EvaluateeController::class,'evaluated']);
+
     Route::apiResource('evaluatees',EvaluateeController::class);
+    Route::post('evaluatees/evaluated',[EvaluateeController::class,'evaluated']);
 
-    // Route::post('/evaluated',[EvaluateeController::class,'evaluated']);
 
 
     Route::post('/rating',[RatingContoller::class,'store'])->withoutMiddleware('auth:sanctum');
@@ -32,7 +32,9 @@ Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum'],function(){
 
 
     Route::apiResource('users',UserController::class)->only(['index']);
-    Route::get('/user',[UserController::class,'getUser']);
+    Route::get('users/user',[UserController::class,'getUser']);
+    Route::post('users/{user}/evaluatees-to-rate',[UserController::class,'getEvaluateesToRate']);
+    // Route::post('users/evaluatees-to-rate',[UserController::class,'getEvaluateesToRate']);
 
 });
 

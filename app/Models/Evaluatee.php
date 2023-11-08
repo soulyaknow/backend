@@ -20,7 +20,7 @@ class Evaluatee extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
-    protected $hidden = ['pivot'];
+    // protected $hidden = ['pivot'];
 
     public function ratings(): HasMany
     {
@@ -37,9 +37,11 @@ class Evaluatee extends Model
         return $this->belongsToMany(Questionaire::class,'evaluatees_questionaires')->withTimestamps();
     }
 
-    public function finishedRated(): BelongsToMany
+    public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class,'evaluatees_users','evaluatee_id','user_id')->withTimestamps();
+        return $this->belongsToMany(User::class,'evaluatees_users','evaluatee_id','user_id')
+                    ->withPivot('is_done')
+                    ->withTimestamps();
     }
 
     public function roles(): MorphToMany
@@ -58,5 +60,6 @@ class Evaluatee extends Model
     {
         return $this->hasMany(Klass::class);
     }
+
 
 }

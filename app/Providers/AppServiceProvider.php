@@ -7,6 +7,9 @@ namespace App\Providers;
 
 // use App\Models\Instructor;
 // use App\Observers\InstructorObserver;
+
+use App\Models\User;
+use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -32,5 +35,6 @@ class AppServiceProvider extends ServiceProvider
             'evaluatee' =>'App\Models\Evaluatee',
             'user'=> 'App\Models\User',
         ]);
+        User::observe(UserObserver::class);
     }
 }

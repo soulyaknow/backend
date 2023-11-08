@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('evaluatees_users', function (Blueprint $table) {
             $table->foreignId('evaluatee_id')->constrained();
             $table->foreignId('user_id')->constrained('users','id_number');
+            $table->boolean('is_done')->default(0);
+            // $table->unique(['evaluatee_id','user_id']);
             $table->timestamps();
         });
     }

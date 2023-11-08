@@ -19,6 +19,11 @@ class EvaluateeResource extends JsonResource
             'name'=> $this->name,
             'departments' => DepartmentResource::collection($this->whenLoaded('departments')),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
+            'pivot' => $this->whenLoaded('pivot', function(){
+                return [
+                    'is_done' => $this->pivot->is_done
+                ];
+            })
         ];
     }
 }

@@ -30,11 +30,6 @@ class EvaluateeController extends Controller
 
     }
 
-    public function notYetEvaluated(Request $request)
-    {
-
-
-    }
 
     public function create()
     {

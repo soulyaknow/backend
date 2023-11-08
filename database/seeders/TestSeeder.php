@@ -59,5 +59,24 @@ class TestSeeder extends Seeder
             }
 
         }
+
+        $klasses = Klass::with('evaluatee')
+        ->with(['sectionYears' => function($q){
+            $q->with('users');
+        }])
+        ->get();
+
+            foreach ($klasses as $klass) {
+
+                foreach( $klass->sectionYears as $sy){
+                    foreach($sy->users as $user){
+
+                        $user->evaluatees()->syncWithoutDetaching($klass->evaluatee->id);
+                    }
+
+                }
+            }
+
+
     }
 }

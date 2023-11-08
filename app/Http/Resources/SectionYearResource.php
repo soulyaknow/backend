@@ -15,6 +15,7 @@ class SectionYearResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'year_section' => $this->s_y,
             'classes' => KlassesResource::collection($this->whenLoaded('klasses')),
         ];

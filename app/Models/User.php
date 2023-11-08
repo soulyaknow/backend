@@ -35,6 +35,7 @@ class User extends Authenticatable
         'id_number',
         'password',
     ];
+    public $timestamps = false;
     // protected $primaryKey = 'id_number';
     /**
      * The attributes that should be hidden for serialization.
@@ -77,9 +78,11 @@ class User extends Authenticatable
     }
 
 
-    public function finishedRated():BelongsToMany
+    public function evaluatees():BelongsToMany
     {
-        return $this->belongsToMany(Evaluatee::class,'evaluatees_users','user_id','evaluatee_id')->withTimestamps();
+        return $this->belongsToMany(Evaluatee::class,'evaluatees_users','user_id','evaluatee_id')
+                    ->withPivot('is_done')
+                    ->withTimestamps();
 
     }
 

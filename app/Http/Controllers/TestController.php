@@ -5,16 +5,18 @@ namespace App\Http\Controllers;
 // use App\Models\Criteria;
 
 use App\Models\User;
+use App\Models\Klass;
 use App\Models\Rating;
 use App\Models\Subject;
 use App\Models\Question;
 use App\Models\Evaluatee;
 use App\Models\Instructor;
-use App\Models\Questionaire;
 // use App\Models\Rating;
+use App\Models\Questionaire;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 use PhpParser\Node\Expr\Eval_;
+use App\Http\Resources\UserResource;
+use Illuminate\Database\Eloquent\Builder;
 
 class TestController extends Controller
 {
@@ -151,19 +153,21 @@ class TestController extends Controller
         // <--- this query for subject to evaluatee
         // $test = Subject::with('evaluatees')->where('id',1)->get();
         // --->>
-
-        $test =  User::with([
-                    'userInfo',
-                    'sectionYears'
-                     => function($query){
-                        $query->with([
-                            'klasses'
-                            => function($q){
-                                $q->with('subject');
-                            }
-                        ]);
-                    }
-                ])->find(10074);
+        $t = [];
+        $ids = [];
+        // $user=  User::with([
+        //             'userInfo',
+        //             'sectionYears'
+        //              => function($query){
+        //               $query->with([
+        //                     'klasses'
+        //                     => function($q){
+        //                         $q->with(['subject','evaluatee']);
+        //                     }
+        //                 ]);
+        //             }
+        //         ])
+        //         ->findOrFail(10203);
 
         // $test = Evaluatee::with([
         //                     'klasses' => function($query){
@@ -171,11 +175,39 @@ class TestController extends Controller
         //                             ->with(['sectionYears'=>function($q){
         //                                     $q->with('users');
         //                             }])
-        //                              ->where('subject_id',5)
+        //                             //  ->where('subject_id',5)
         //                              ->get();
         //                     }
         //                     ])
         //                     ->find(1);
-       return response()->json($test);
+        $klasses = Klass::with('evaluatee')
+                        ->with(['sectionYears' => function($q){
+                            $q->with('users');
+                        }])
+                        ->get();
+            // dd($klasses[0]->evaluatee);
+            dd( $klasses[0]->sectionYears[0]->users[0]);
+            // foreach($users->sectionYears as $sy){
+            //     dd($sy->klasses[0]->evaluatee );
+            //     // dd($sy->klasses[0]->evaluatee->id );
+            //         foreach($sy->klasses as $klass){
+            //             dd( $klass);
+            //             // foreach($klass->evaluatee as $evaluatee){
+            //             //    array_push($ids, $evaluatee->id);
+            //             // }
+            //         }
+            // }
+
+        // dd($ids);
+
+
+
+
+
+
+
+
+    //    return response()->json($t);
+    //    return new UserResource($test);
     }
 }

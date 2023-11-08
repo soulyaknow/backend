@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EvaluateeResource;
 use App\Http\Resources\UserResource;
 
 class UserController extends Controller
@@ -18,7 +19,11 @@ class UserController extends Controller
 
     public function getUser()
     {
-        $user = User::with([
+        $user = cache()->remember(
+                'getUser',
+                now()->addDay(),
+                function(){
+                 return User::with([
                         'departments',
                         'roles',
                         'userInfo',
@@ -33,11 +38,31 @@ class UserController extends Controller
                         }
                     ])
                     ->findOrFail(auth()->user()->id_number);
+                }
+        );
 
         // return response()->json($user);
         return new UserResource($user);
 
     }
+
+    public function getEvaluateesToRate(User $user){
+        $evaluatees = $user->evaluatees()->with(['roles','departments'])->get();
+        // return response()->json( $evaluatees);
+        return EvaluateeResource::collection($evaluatees);
+    }
+
+    // public function getEvaluateesToRate(Request $request){
+    //     $user = User::with([
+    //                         'evaluatees' => function ($q){
+    //                             $q->with(['roles','departments']);
+    //                     }
+    //                     ])
+    //                     ->findOrFail($request->user_id);
+    //     return response()->json( $user );
+    //     // return EvaluateeResource::collection( $user );
+    // }
+
 
     public function create()
     {
