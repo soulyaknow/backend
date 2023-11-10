@@ -20,18 +20,14 @@ Route::group(['prefix'=>'v1','middleware'=>'auth:sanctum'],function(){
     Route::post('evaluatees/evaluated',[EvaluateeController::class,'evaluated']);
 
 
-
     Route::post('/rating',[RatingContoller::class,'store'])->withoutMiddleware('auth:sanctum');
-
 
     Route::apiResource('departments',DepartmentController::class)->only(['index'])->withoutMiddleware('auth:sanctum');
 
-
     Route::apiResource('roles',RoleController::class)->only(['index'])->withoutMiddleware('auth:sanctum');
 
-
-
     Route::apiResource('users',UserController::class)->only(['index']);
+    // Route::get('users/user-info',[UserController::class,'getUserInfo']);
     Route::get('users/user',[UserController::class,'getUser']);
     Route::post('users/{user}/evaluatees-to-rate',[UserController::class,'getEvaluateesToRate']);
     // Route::post('users/evaluatees-to-rate',[UserController::class,'getEvaluateesToRate']);

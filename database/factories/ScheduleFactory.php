@@ -17,7 +17,9 @@ class ScheduleFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'start_time' => fake()->time('H:i:s','now'),
+            'end_time' =>  fake()->time('H:i:s', 'now + 1'),
+            'day' => fake()->randomElement(['MWF','TTH','Saturday'])
         ];
     }
 }

@@ -33,6 +33,7 @@ class RatingContoller extends Controller
         try{
             $evaluatee = Evaluatee::findOrFail($request->instructorId);
             $evaluatee->ratings()->createMany($request->val);
+            $evaluatee->users()->updateExistingPivot($request->user_id,['is_done' => 1]);
             return response()->json(['code'=>201,'success'=>'ratings successfully created']);
         }catch( PDOException  $e){
             return response()->json(['error'=>$e]);

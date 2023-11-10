@@ -17,33 +17,47 @@ class UserController extends Controller
         return  UserResource::collection($users);
     }
 
+    // public function getUserInfo()
+    // {
+    //     $user = cache()->remember(
+    //         'getUser',
+    //         now()->addDay(),
+    //         function(){
+    //             return User::with('roles')
+    //             ->findOrFail(auth()->user()->id_number);
+    //         }
+    //     );
+
+
+    //     return new UserResource($user);
+
+    // }
+
     public function getUser()
     {
+
         $user = cache()->remember(
-                'getUser',
-                now()->addDay(),
-                function(){
-                 return User::with([
-                        'departments',
-                        'roles',
-                        'userInfo',
-                        'sectionYears'
-                            => function($query){
-                            $query->with([
-                                'klasses'
-                                => function($q){
-                                    $q->with(['subject','evaluatee']);
-                                }
-                            ]);
-                        }
-                    ])
-                    ->findOrFail(auth()->user()->id_number);
-                }
-        );
-
-        // return response()->json($user);
+            'getUserInfo' . auth()->user()->id_number,
+            now()->addDay(),
+            function(){
+             return User::with([
+                    'departments',
+                    'roles',
+                    'userInfo',
+                    'sectionYears'
+                        => function($query){
+                        $query->with([
+                            'klasses'
+                            => function($q){
+                                $q->with(['subject','evaluatee']);
+                            }
+                        ]);
+                    }
+                ])
+                ->findOrFail(auth()->user()->id_number);
+            }
+    );
         return new UserResource($user);
-
     }
 
     public function getEvaluateesToRate(User $user){
@@ -51,18 +65,6 @@ class UserController extends Controller
         // return response()->json( $evaluatees);
         return EvaluateeResource::collection($evaluatees);
     }
-
-    // public function getEvaluateesToRate(Request $request){
-    //     $user = User::with([
-    //                         'evaluatees' => function ($q){
-    //                             $q->with(['roles','departments']);
-    //                     }
-    //                     ])
-    //                     ->findOrFail($request->user_id);
-    //     return response()->json( $user );
-    //     // return EvaluateeResource::collection( $user );
-    // }
-
 
     public function create()
     {

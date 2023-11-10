@@ -18,8 +18,8 @@ class UserResource extends JsonResource
             'id_number' => $this->id_number,
             'departments' => DepartmentResource::collection($this->whenLoaded('departments')),
             'roles' => RoleResource::collection($this->whenLoaded('roles')),
-            'info' => UserInfoResource::make($this->whenLoaded('userInfo')),
-            'year_section' => SectionYearResource::collection($this->whenLoaded('sectionYears')),
+            'infos' => [UserInfoResource::make($this->whenLoaded('userInfo'))],
+            'year_sections' => SectionYearResource::collection($this->whenLoaded('sectionYears')),
         ];
     }
 

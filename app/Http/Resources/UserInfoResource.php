@@ -19,6 +19,7 @@ class UserInfoResource extends JsonResource
             'mobile_number' => $this->mobile_number,
             'course' => $this->course,
             'email' => $this->email,
+            'regular' => $this->regular
         ];
     }
 }
